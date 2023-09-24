@@ -1,0 +1,11 @@
+color: var(--theme-base-white-fixed, #FFF);
+leading-trim: both;
+text-edge: cap;
+
+/* Headings/Heading xs/SemiBold */
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px;
+border: 1px solid red;

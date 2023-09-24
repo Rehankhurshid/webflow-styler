@@ -1,0 +1,20 @@
+<link href="styles.css" rel="stylesheet" />
+  <body>
+    <div class="p-2 max-w-sm mx-auto flex-col">
+      <div style="display: flex;" >
+        <p>Breakpoint : </p>
+        <p class="breakpointDisplay"></p>
+      </div>
+        <div style="display: flex;">
+          <p>class: </p>
+          <p class="classDisplay"></p>
+        </div>
+        <input type="text" id="input-class" style="display: none;" placeholder="Enter class name" />
+      <textarea rows="8" id="figma-css" placeholder="Paste Figma CSS here"></textarea>
+      <button id="apply-styles">Apply Styles</button>
+      <script src="index.js"></script>
+      <script type="module" src="handlers.js"></script>
+      <script type="module" src="domManiputaltion.js"></script>
+    </div>
+  </body>
+<script src="index.js"></script>
