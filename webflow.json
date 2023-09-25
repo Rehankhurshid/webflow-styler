@@ -1,4 +1,5 @@
 {
   "name": "wFlowExt",
-  "size": "default"
+  "size": "large",
+  "publicDir": "public"
 }
