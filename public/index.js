@@ -7,7 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-document.getElementById("apply-styles").addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+import { CleanCSS } from "clean-css";
+document.getElementById("apply-styles").addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     // Get the selected element
     const selectedElement = yield webflow.getSelectedElement();
     if (!selectedElement) {
@@ -55,9 +56,16 @@ document.getElementById("apply-styles").addEventListener("click", () => __awaite
         console.log("4");
     }
 }));
+function cleanAndFormatCSS(css) {
+    const cleaner = new CleanCSS({ format: "beautify" });
+    const output = cleaner.minify(css);
+    return output.styles;
+}
 function parseFigmaCSS(css) {
+    const cleanedCSS = cleanAndFormatCSS(css);
+    console.log(cleanedCSS); // Log the cleaned CSS
     const properties = {};
-    const cssLines = css.split(";");
+    const cssLines = cleanedCSS.split(";");
     cssLines.forEach((line) => {
         const [property, value] = line.split(":").map((s) => s.trim());
         if (property && value) {
@@ -149,6 +157,24 @@ function parseFigmaCSS(css) {
                         break;
                     default:
                         console.error("Unexpected number of padding values:", paddingValues);
+                }
+            }
+            else if (property === "background") {
+                if (value.startsWith("linear-gradient")) {
+                    // Convert Figma gradient to Webflow format
+                    const gradient = value.replace("180deg", "to bottom");
+                    properties["background-image"] = gradient;
+                }
+                else if (value.startsWith("var")) {
+                    // Extract color from var() function
+                    const colorMatch = value.match(/var\(--[a-z0-9]+, (#[a-z0-9]+)\)/i);
+                    if (colorMatch && colorMatch[1]) {
+                        properties["background-color"] = colorMatch[1];
+                    }
+                }
+                else {
+                    // Assume it's a simple color value
+                    properties["background-color"] = value;
                 }
             }
             else {

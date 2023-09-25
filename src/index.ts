@@ -1,3 +1,5 @@
+import { CleanCSS } from "clean-css";
+
 document.getElementById("apply-styles").addEventListener("click", async () => {
   // Get the selected element
   const selectedElement: any = await webflow.getSelectedElement();
@@ -51,9 +53,18 @@ document.getElementById("apply-styles").addEventListener("click", async () => {
   }
 });
 
+function cleanAndFormatCSS(css: string): string {
+  const cleaner = new CleanCSS({ format: "beautify" });
+  const output = cleaner.minify(css);
+  return output.styles;
+}
+
 function parseFigmaCSS(css: string): { [key: string]: string } {
+  const cleanedCSS = cleanAndFormatCSS(css);
+  console.log(cleanedCSS); // Log the cleaned CSS
+
   const properties: { [key: string]: string } = {};
-  const cssLines = css.split(";");
+  const cssLines = cleanedCSS.split(";");
 
   cssLines.forEach((line) => {
     const [property, value] = line.split(":").map((s) => s.trim());
@@ -148,6 +159,21 @@ function parseFigmaCSS(css: string): { [key: string]: string } {
               "Unexpected number of padding values:",
               paddingValues
             );
+        }
+      } else if (property === "background") {
+        if (value.startsWith("linear-gradient")) {
+          // Convert Figma gradient to Webflow format
+          const gradient = value.replace("180deg", "to bottom");
+          properties["background-image"] = gradient;
+        } else if (value.startsWith("var")) {
+          // Extract color from var() function
+          const colorMatch = value.match(/var\(--[a-z0-9]+, (#[a-z0-9]+)\)/i);
+          if (colorMatch && colorMatch[1]) {
+            properties["background-color"] = colorMatch[1];
+          }
+        } else {
+          // Assume it's a simple color value
+          properties["background-color"] = value;
         }
       } else {
         properties[property] = value;

@@ -89,8 +89,20 @@ textarea:hover {
   border-color: var(--border3);
 }
 .wfwidget_breakpoint-wrap {
-  display: flex !important;
-  width: 10px;
+  display: flex;
+}
+
+.wfwidget_class-chip-icon {
+  display: flex;
+  width: 1.875rem;
+  height: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 0.125rem;
+  border-top-right-radius: 0.125rem;
+  border-bottom-left-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  background-color: #5e5e5e;
 }
 
 .button {
@@ -179,12 +191,20 @@ textarea:hover {
 
 .wfwidget_breakpoint {
   display: flex;
-  padding: 0.125rem 0.25rem;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  border-radius: 0.125rem;
-  background-color: #4d4d4d;
+  grid-column-gap: 0.25rem;
+  grid-row-gap: 0.25rem;
   pointer-events: auto;
+}
+
+.icon-embed-xxsmall {
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .w-layout-vflex {
@@ -207,9 +227,10 @@ textarea:hover {
 
 .wfwidget_class-chip {
   display: flex;
-  padding-top: 0.25rem;
+  min-height: 24px;
+
   padding-right: 0.4375rem;
-  padding-bottom: 0.25rem;
+
   padding-left: 0.4375rem;
   justify-content: center;
   align-items: center;
