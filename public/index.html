@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="styles-t.css" />
-    <script src="https://unpkg.com/clean-css@5.3.3/dist/clean-css.min.js"></script>
   </head>
   <body>
-    <div class="wfwidget_comp">
+
+    <!-- single class or no class screen -->
+    <div id="non-combo-class" class="wfwidget_comp">
       <div class="wfwidget_block">
         <div class="font-size-small">Style Breakpoint:</div>
         <div class="wfwidget_breakpoint-wrap">
@@ -74,7 +75,13 @@
 
       <div class="w-layout-vflex wfwidget_btn-wrap">
         <a href="#" id="apply-styles" class="button">Apply CSS</a>
+        <a href="#" id="reset-styles" class="button">Reset CSS</a>
       </div>
+    </div>
+
+    <!-- combo class screen -->
+    <div id="combo-class" style="display: none;" class="wfwidget_comp">
+      <h1>sorry for combo class</h1>
     </div>
 
     <script type="module" src="index.js"></script>

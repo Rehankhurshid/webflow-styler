@@ -7,65 +7,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { CleanCSS } from "clean-css";
-document.getElementById("apply-styles").addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
-    // Get the selected element
-    const selectedElement = yield webflow.getSelectedElement();
-    if (!selectedElement) {
-        webflow.notify({
-            type: "Error",
-            message: "Something went wrong, try again!",
-        });
-        return;
+function formatCSSDeclarations(css) {
+    // Remove comments
+    css = css.replace(/\/\*.*?\*\//g, '');
+    // Split declarations into individual lines
+    let declarations = css.split(';');
+    // Trim whitespace from each declaration
+    declarations = declarations.map(declaration => declaration.trim());
+    // Remove any empty lines
+    declarations = declarations.filter(declaration => declaration.length > 0);
+    // Join the declarations back together, formatted with indentation and line breaks
+    let formattedCSS = declarations.join(';\n    ');
+    // Add a line break at the end, if there are any declarations
+    if (formattedCSS.length > 0) {
+        formattedCSS += ';';
     }
-    // Get the Figma CSS from the textarea
-    const figmaCSS = document.getElementById("figma-css")
-        .value;
-    // Parse the Figma CSS
-    const parsedStyles = parseFigmaCSS(figmaCSS);
-    // input
-    const inputElement = document.getElementById("input-class");
-    const inputValue = inputElement.value;
-    console.log(inputValue);
-    // Get the styles of the selected element
-    const elementStyles = yield selectedElement.getStyles();
-    // If there are styles, use the first one (assuming one style per element for simplicity)
-    if (elementStyles && elementStyles.length > 1) {
-        console.log("1st");
-        webflow.notify({
-            type: "Error",
-            message: "We can't apply styles to combo classes!",
-        });
-    }
-    else if (elementStyles && elementStyles.length === 1) {
-        console.log("2");
-        const primaryStyle = elementStyles[0];
-        primaryStyle.setProperties(parsedStyles);
-        yield primaryStyle.save();
-    }
-    else if (elementStyles && elementStyles.length === 0) {
-        console.log("3rd");
-        // If no styles, create a new one and set it to the element
-        const newStyle = webflow.createStyle(inputValue);
-        newStyle.setProperties(parsedStyles);
-        yield newStyle.save();
-        selectedElement.setStyles([newStyle]);
-        yield selectedElement.save();
-    }
-    else {
-        console.log("4");
-    }
-}));
-function cleanAndFormatCSS(css) {
-    const cleaner = new CleanCSS({ format: "beautify" });
-    const output = cleaner.minify(css);
-    return output.styles;
+    return formattedCSS;
 }
 function parseFigmaCSS(css) {
-    const cleanedCSS = cleanAndFormatCSS(css);
-    console.log(cleanedCSS); // Log the cleaned CSS
+    const formattedCSS = formatCSSDeclarations(css);
     const properties = {};
-    const cssLines = cleanedCSS.split(";");
+    const cssLines = formattedCSS.split(";\n    ");
+    // const properties: { [key: string]: string } = {};
+    // const cleanedCSS = removeComments(css);
+    // const cssLines = cleanedCSS.split(";");
     cssLines.forEach((line) => {
         const [property, value] = line.split(":").map((s) => s.trim());
         if (property && value) {
@@ -184,3 +149,96 @@ function parseFigmaCSS(css) {
     });
     return properties;
 }
+function compareObjects(obj1, obj2) {
+    // Get the keys of both objects
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    // Check if the number of keys in both objects is the same
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    // Check if all properties have the same values
+    for (const key of keys1) {
+        if (obj1[key] !== obj2[key]) {
+            return false;
+        }
+    }
+    return true;
+}
+// Apply styles event listner
+document.getElementById("apply-styles").addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+    // Get the selected element
+    const selectedElement = yield webflow.getSelectedElement();
+    if (!selectedElement) {
+        webflow.notify({
+            type: "Error",
+            message: "Something went wrong, try again!",
+        });
+        return;
+    }
+    // Get the Figma CSS from the textarea
+    const figmaCSS = document.getElementById("figma-css")
+        .value;
+    // Parse the Figma CSS
+    const parsedStyles = parseFigmaCSS(figmaCSS);
+    // input
+    const inputElement = document.getElementById("input-class");
+    const inputValue = inputElement.value;
+    // Get the styles of the selected element
+    const elementStyles = yield selectedElement.getStyles();
+    // If there are styles, use the first one (assuming one style per element for simplicity)
+    if (elementStyles && elementStyles.length > 1) {
+        console.log("1st");
+        webflow.notify({
+            type: "Error",
+            message: "We can't apply styles to combo classes!",
+        });
+    }
+    else if (elementStyles && elementStyles.length === 1) {
+        console.log("2");
+        const primaryStyle = elementStyles[0];
+        console.log(parsedStyles);
+        primaryStyle.setProperties(parsedStyles, { breakpoint: 'tiny', pseudo: 'noPseudo' });
+        yield primaryStyle.save();
+        console.log(yield primaryStyle.save());
+    }
+    else if (elementStyles && elementStyles.length === 0) {
+        console.log("3rd");
+        // If no styles, create a new one and set it to the element
+        const newStyle = webflow.createStyle(inputValue);
+        newStyle.setProperties(parsedStyles, { breakpoint: 'tiny', pseudo: 'noPseudo' });
+        yield newStyle.save();
+        selectedElement.setStyles([newStyle]);
+        yield selectedElement.save();
+    }
+    else {
+        console.log("4");
+    }
+    console.log(elementStyles);
+    const elementNewProperties = elementStyles[0].getProperties();
+    // compare
+    console.log(parsedStyles, elementNewProperties);
+    const objectsAreEqual = compareObjects(parsedStyles, elementNewProperties);
+    if (objectsAreEqual) {
+        console.log("The objects have the same properties and values.");
+    }
+    else {
+        console.log("The objects have different properties or values.");
+    }
+}));
+// Reset styles event listener
+document.getElementById("reset-styles").addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+    const selectedElement = yield webflow.getSelectedElement();
+    if (!selectedElement) {
+        webflow.notify({
+            type: "Error",
+            message: "Something went wrong, try again!",
+        });
+        return;
+    }
+    const elementStyles = yield selectedElement.getStyles();
+    const styleName = elementStyles[0].getName();
+    elementStyles[0].clearAllProperties();
+    elementStyles[0].save();
+    // console.log(elementStyles[0].getProperties())
+}));

@@ -35,6 +35,7 @@ const unsubscribeMediaQuery = webflow.subscribe('mediaquery', mediaQueryCallback
 const selectedElementDisplay = document.querySelector(".classDisplay");
 // Subscribe to changes in the selected element
 const selectedElementCallback = (element) => {
+    // This is to display class in div
     const inputElement = document.getElementById("input-class");
     if (element) {
         // check if there is one more class in element
@@ -53,6 +54,41 @@ const selectedElementCallback = (element) => {
                 }
                 else {
                     inputElement.style.display = "none";
+                    selectedElementDisplay.innerHTML = "combo class issue";
+                }
+            });
+        })();
+    }
+    else {
+        console.log('No element is currently selected.');
+    }
+    const singleClassDiv = document.getElementById("non-combo-class");
+    const comboClassDiv = document.getElementById("combo-class");
+    // To show empty screen incase of combo class
+    if (element) {
+        // check if there is one more class in element
+        (function () {
+            var _a;
+            return __awaiter(this, void 0, void 0, function* () {
+                const elementStyles = yield (element === null || element === void 0 ? void 0 : element.getStyles());
+                const currentClassName = (_a = elementStyles[0]) === null || _a === void 0 ? void 0 : _a.getName();
+                if (elementStyles.length === 1) {
+                    singleClassDiv.style.display = "block";
+                    comboClassDiv.style.display = "none";
+                    inputElement.style.display = "none";
+                    selectedElementDisplay.innerHTML = currentClassName;
+                }
+                else if (elementStyles.length === 0) {
+                    singleClassDiv.style.display = "block";
+                    comboClassDiv.style.display = "none";
+                    selectedElementDisplay.innerHTML = "Add new class";
+                }
+                // combo class
+                else {
+                    // show combo class div
+                    comboClassDiv.style.display = "block";
+                    // hide single class div
+                    singleClassDiv.style.display = "none";
                     selectedElementDisplay.innerHTML = "combo class issue";
                 }
             });
