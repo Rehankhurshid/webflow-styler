@@ -18,7 +18,8 @@ document.getElementById("apply-styles").addEventListener("click", () => __awaite
         return;
     }
     // Get the Figma CSS from the textarea
-    const figmaCSS = document.getElementById("figma-css").value;
+    const figmaCSS = document.getElementById("figma-css")
+        .value;
     // Parse the Figma CSS
     const parsedStyles = parseFigmaCSS(figmaCSS);
     // input
@@ -60,7 +61,99 @@ function parseFigmaCSS(css) {
     cssLines.forEach((line) => {
         const [property, value] = line.split(":").map((s) => s.trim());
         if (property && value) {
-            properties[property] = value;
+            if (property.startsWith("border")) {
+                if (property === "border-radius") {
+                    const borderRadiusValues = value.split(" ").map((s) => s.trim());
+                    switch (borderRadiusValues.length) {
+                        case 1:
+                            properties["border-top-left-radius"] = borderRadiusValues[0];
+                            properties["border-top-right-radius"] = borderRadiusValues[0];
+                            properties["border-bottom-left-radius"] = borderRadiusValues[0];
+                            properties["border-bottom-right-radius"] = borderRadiusValues[0];
+                            break;
+                        case 2:
+                            properties["border-top-left-radius"] = borderRadiusValues[0];
+                            properties["border-top-right-radius"] = borderRadiusValues[1];
+                            properties["border-bottom-left-radius"] = borderRadiusValues[0];
+                            properties["border-bottom-right-radius"] = borderRadiusValues[1];
+                            break;
+                        case 3:
+                            properties["border-top-left-radius"] = borderRadiusValues[0];
+                            properties["border-top-right-radius"] = borderRadiusValues[1];
+                            properties["border-bottom-left-radius"] = borderRadiusValues[2];
+                            properties["border-bottom-right-radius"] = borderRadiusValues[1];
+                            break;
+                        case 4:
+                            properties["border-top-left-radius"] = borderRadiusValues[0];
+                            properties["border-top-right-radius"] = borderRadiusValues[1];
+                            properties["border-bottom-right-radius"] = borderRadiusValues[2];
+                            properties["border-bottom-left-radius"] = borderRadiusValues[3];
+                            break;
+                        default:
+                            console.error("Unexpected number of border-radius values:", borderRadiusValues);
+                    }
+                }
+                else if (property === "border") {
+                    const [width, style, color] = value.split(" ").map((s) => s.trim());
+                    properties["border-top-width"] = width;
+                    properties["border-top-style"] = style;
+                    properties["border-top-color"] = color;
+                    properties["border-right-width"] = width;
+                    properties["border-right-style"] = style;
+                    properties["border-right-color"] = color;
+                    properties["border-bottom-width"] = width;
+                    properties["border-bottom-style"] = style;
+                    properties["border-bottom-color"] = color;
+                    properties["border-left-width"] = width;
+                    properties["border-left-style"] = style;
+                    properties["border-left-color"] = color;
+                }
+                else {
+                    const side = property.split("-")[1];
+                    const [width, style, color] = value.split(" ").map((s) => s.trim());
+                    properties[`border-${side}-width`] = width;
+                    properties[`border-${side}-style`] = style;
+                    properties[`border-${side}-color`] = color;
+                }
+            }
+            else if (property === "gap") {
+                properties["grid-row-gap"] = value;
+                properties["grid-column-gap"] = value;
+            }
+            else if (property === "padding") {
+                const paddingValues = value.split(" ").map((s) => s.trim());
+                switch (paddingValues.length) {
+                    case 1:
+                        properties["padding-top"] = paddingValues[0];
+                        properties["padding-right"] = paddingValues[0];
+                        properties["padding-bottom"] = paddingValues[0];
+                        properties["padding-left"] = paddingValues[0];
+                        break;
+                    case 2:
+                        properties["padding-top"] = paddingValues[0];
+                        properties["padding-right"] = paddingValues[1];
+                        properties["padding-bottom"] = paddingValues[0];
+                        properties["padding-left"] = paddingValues[1];
+                        break;
+                    case 3:
+                        properties["padding-top"] = paddingValues[0];
+                        properties["padding-right"] = paddingValues[1];
+                        properties["padding-bottom"] = paddingValues[2];
+                        properties["padding-left"] = paddingValues[1];
+                        break;
+                    case 4:
+                        properties["padding-top"] = paddingValues[0];
+                        properties["padding-right"] = paddingValues[1];
+                        properties["padding-bottom"] = paddingValues[2];
+                        properties["padding-left"] = paddingValues[3];
+                        break;
+                    default:
+                        console.error("Unexpected number of padding values:", paddingValues);
+                }
+            }
+            else {
+                properties[property] = value;
+            }
         }
     });
     return properties;

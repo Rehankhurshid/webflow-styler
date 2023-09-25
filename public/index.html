@@ -1,20 +1,106 @@
-<link href="styles.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="styles.css" rel="stylesheet" />
+  </head>
   <body>
-    <div class="p-2 max-w-sm mx-auto flex-col">
-      <div style="display: flex;" >
-        <p>Breakpoint : </p>
-        <p class="breakpointDisplay"></p>
-      </div>
-        <div style="display: flex;">
-          <p>class: </p>
-          <p class="classDisplay"></p>
+    <div class="wfwidget_comp">
+      <div class="wfwidget_block">
+        <div class="font-size-large">
+          Breakpoint where Styles will be applied:
         </div>
-        <input type="text" id="input-class" style="display: none;" placeholder="Enter class name" />
-      <textarea rows="8" id="figma-css" placeholder="Paste Figma CSS here"></textarea>
-      <button id="apply-styles">Apply Styles</button>
-      <script src="index.js"></script>
-      <script type="module" src="handlers.js"></script>
-      <script type="module" src="domManiputaltion.js"></script>
+        <div class="wfwidget_breakpoint-wrap">
+          <div class="wfwidget_breakpoint">
+            <div class="icon-embed-xsmall _969696">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                viewBox="0 0 24 24"
+                fill="none"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+                role="img"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.037 3H4C3.73478 3 3.48043 3.10536 3.29289 3.29289C3.10536 3.48043 3 3.73478 3 4V17H0V19C0 19.2652 0.105357 19.5196 0.292893 19.7071C0.48043 19.8946 0.734784 20 1 20H23C23.2652 20 23.5196 19.8946 23.7071 19.7071C23.8946 19.5196 24 19.2652 24 19V17H21V8.82L20.003 8.095L20 8.097V17H4V4H14.418C14.1677 3.72771 14.0313 3.36981 14.037 3Z"
+                  fill="currentColor"
+                ></path>
+                <path
+                  opacity="0.6"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.74 5H5V16H19V8.825L18.126 9.461C16.951 10.316 15.368 9.168 15.816 7.785L16.533 5.575L15.742 5H15.74Z"
+                  fill="currentColor"
+                ></path>
+                <path
+                  d="M21.3023 2.47222L20.6953 0.526455C20.4756 -0.175485 19.5215 -0.175485 19.3026 0.526455L18.6948 2.47222H16.7332C16.0244 2.47222 15.7293 3.41729 16.3034 3.85171L17.8923 5.05134L17.2846 6.99939C17.0656 7.70133 17.8381 8.28514 18.4122 7.85072L20.0018 6.64652L21.59 7.84767C22.1634 8.28209 22.9359 7.69829 22.7169 6.99558L22.1107 5.05058L23.6967 3.85095C24.2707 3.41653 23.9756 2.47222 23.2661 2.47222H21.3037H21.3023Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            <div class="font-size-small breakpointDisplay">Desktop</div>
+          </div>
+        </div>
+        </div>
+        
+      <div class="wfwidget_block">
+        <div class="font-size-large">Selected Class</div>
+        <div class="wfwidget_class-wrap">
+          <div class="icon-embed-xsmall sm w-embed">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              height="100%"
+              viewBox="0 0 11 11"
+              fill="none"
+              preserveAspectRatio="xMidYMid meet"
+              aria-hidden="true"
+              role="img"
+            >
+              <path
+                d="M2.73506 0L2.73506 11M8.47418 0L8.47418 11M11 3.21332L0 3.21332M11 7.99592L0 7.99592"
+                stroke="currentColor"
+              ></path>
+            </svg>
+          </div>
+          
+          <div class="wfwidget_class-chip">
+            <div class="font-size-small classDisplay">heading-style-h1</div>
+          </div>
+        </div>
+      </div>
+      <div class="wfwidget_block">
+        <div class="font-size-large">Paste the Figma CSS below:</div>
+        <input id="input-class" type="text" class="textarea w-input">
+        <div class="wfwidget_textarea-block">
+          <textarea
+    
+          placeholder="Example Text"
+        
+          id="figma-css"
+        
+          class="textarea w-input"
+        ></textarea>
+          </div>
+        </div>
+        <div class="w-layout-vflex wfwidget_btn-wrap">
+          <a href="#" id="apply-styles" class="button">Reset &amp; Apply CSS</a
+          ><a href="#" class="button">Apply CSS</a>
+        </div>
+      </div>
+      
     </div>
+    <script src="index.js"></script>
+    <script type="module" src="handlers.js"></script>
+    <script type="module" src="domManiputaltion.js"></script>
   </body>
-<script src="index.js"></script>
+  
+  
+  
+</html>
