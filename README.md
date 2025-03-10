@@ -22,3 +22,4 @@ $ npm run build
 ```
 
 This will take the contents of the `./public` folder and prepare a `bundle.zip` file ready for you to upload as a Designer extension for your App.
+# webflow-css-styler
