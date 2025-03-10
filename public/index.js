@@ -9,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function formatCSSDeclarations(css) {
     // Remove comments
-    css = css.replace(/\/\*.*?\*\//g, '');
+    css = css.replace(/\/\*.*?\*\//g, "");
     // Split declarations into individual lines
-    let declarations = css.split(';');
+    let declarations = css.split(";");
     // Trim whitespace from each declaration
-    declarations = declarations.map(declaration => declaration.trim());
+    declarations = declarations.map((declaration) => declaration.trim());
     // Remove any empty lines
-    declarations = declarations.filter(declaration => declaration.length > 0);
+    declarations = declarations.filter((declaration) => declaration.length > 0);
     // Join the declarations back together, formatted with indentation and line breaks
-    let formattedCSS = declarations.join(';\n    ');
+    let formattedCSS = declarations.join(";\n    ");
     // Add a line break at the end, if there are any declarations
     if (formattedCSS.length > 0) {
-        formattedCSS += ';';
+        formattedCSS += ";";
     }
     return formattedCSS;
 }
@@ -28,9 +28,6 @@ function parseFigmaCSS(css) {
     const formattedCSS = formatCSSDeclarations(css);
     const properties = {};
     const cssLines = formattedCSS.split(";\n    ");
-    // const properties: { [key: string]: string } = {};
-    // const cleanedCSS = removeComments(css);
-    // const cssLines = cleanedCSS.split(";");
     cssLines.forEach((line) => {
         const [property, value] = line.split(":").map((s) => s.trim());
         if (property && value) {
@@ -67,19 +64,33 @@ function parseFigmaCSS(css) {
                     }
                 }
                 else if (property === "border") {
-                    const [width, style, color] = value.split(" ").map((s) => s.trim());
-                    properties["border-top-width"] = width;
-                    properties["border-top-style"] = style;
-                    properties["border-top-color"] = color;
-                    properties["border-right-width"] = width;
-                    properties["border-right-style"] = style;
-                    properties["border-right-color"] = color;
-                    properties["border-bottom-width"] = width;
-                    properties["border-bottom-style"] = style;
-                    properties["border-bottom-color"] = color;
-                    properties["border-left-width"] = width;
-                    properties["border-left-style"] = style;
-                    properties["border-left-color"] = color;
+                    // Updated code to handle var function in border property
+                    const borderMatch = value.match(/(\d+px) solid var\((.*?),\s*(#[a-z0-9]+)\)/i);
+                    if (borderMatch && borderMatch.length === 4) {
+                        const [, width, varName, color] = borderMatch;
+                        const sides = ["top", "right", "bottom", "left"];
+                        sides.forEach((side) => {
+                            properties[`border-${side}-width`] = width;
+                            properties[`border-${side}-style`] = "solid";
+                            properties[`border-${side}-color`] = `var(${varName}, ${color})`;
+                        });
+                    }
+                    else {
+                        // Fallback to your original code if the regex match fails
+                        const [width, style, color] = value.split(" ").map((s) => s.trim());
+                        properties["border-top-width"] = width;
+                        properties["border-top-style"] = style;
+                        properties["border-top-color"] = color;
+                        properties["border-right-width"] = width;
+                        properties["border-right-style"] = style;
+                        properties["border-right-color"] = color;
+                        properties["border-bottom-width"] = width;
+                        properties["border-bottom-style"] = style;
+                        properties["border-bottom-color"] = color;
+                        properties["border-left-width"] = width;
+                        properties["border-left-style"] = style;
+                        properties["border-left-color"] = color;
+                    }
                 }
                 else {
                     const side = property.split("-")[1];
@@ -131,8 +142,8 @@ function parseFigmaCSS(css) {
                     properties["background-image"] = gradient;
                 }
                 else if (value.startsWith("var")) {
-                    // Extract color from var() function
-                    const colorMatch = value.match(/var\(--[a-z0-9]+, (#[a-z0-9]+)\)/i);
+                    // Updated regex to handle the new format
+                    const colorMatch = value.match(/var\(.*?,\s*(#[a-z0-9]+)\)/i);
                     if (colorMatch && colorMatch[1]) {
                         properties["background-color"] = colorMatch[1];
                     }
@@ -148,22 +159,6 @@ function parseFigmaCSS(css) {
         }
     });
     return properties;
-}
-function compareObjects(obj1, obj2) {
-    // Get the keys of both objects
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-    // Check if the number of keys in both objects is the same
-    if (keys1.length !== keys2.length) {
-        return false;
-    }
-    // Check if all properties have the same values
-    for (const key of keys1) {
-        if (obj1[key] !== obj2[key]) {
-            return false;
-        }
-    }
-    return true;
 }
 // Apply styles event listner
 document.getElementById("apply-styles").addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
@@ -198,7 +193,7 @@ document.getElementById("apply-styles").addEventListener("click", () => __awaite
         console.log("2");
         const primaryStyle = elementStyles[0];
         console.log(parsedStyles);
-        primaryStyle.setProperties(parsedStyles, { breakpoint: 'tiny', pseudo: 'noPseudo' });
+        primaryStyle.setProperties(parsedStyles);
         yield primaryStyle.save();
         console.log(yield primaryStyle.save());
     }
@@ -206,24 +201,13 @@ document.getElementById("apply-styles").addEventListener("click", () => __awaite
         console.log("3rd");
         // If no styles, create a new one and set it to the element
         const newStyle = webflow.createStyle(inputValue);
-        newStyle.setProperties(parsedStyles, { breakpoint: 'tiny', pseudo: 'noPseudo' });
+        newStyle.setProperties(parsedStyles);
         yield newStyle.save();
         selectedElement.setStyles([newStyle]);
         yield selectedElement.save();
     }
     else {
         console.log("4");
-    }
-    console.log(elementStyles);
-    const elementNewProperties = elementStyles[0].getProperties();
-    // compare
-    console.log(parsedStyles, elementNewProperties);
-    const objectsAreEqual = compareObjects(parsedStyles, elementNewProperties);
-    if (objectsAreEqual) {
-        console.log("The objects have the same properties and values.");
-    }
-    else {
-        console.log("The objects have different properties or values.");
     }
 }));
 // Reset styles event listener
@@ -240,5 +224,4 @@ document.getElementById("reset-styles").addEventListener("click", () => __awaite
     const styleName = elementStyles[0].getName();
     elementStyles[0].clearAllProperties();
     elementStyles[0].save();
-    // console.log(elementStyles[0].getProperties())
 }));
