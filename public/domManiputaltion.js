@@ -39,7 +39,6 @@ export const getBreakpoint = () =>
       return breakpoint;
     } catch (error) {
       return "error";
-      alert("hello");
     }
   });
 const breakpoint = document.querySelector(".breakpointDisplay");
