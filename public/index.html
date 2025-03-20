@@ -1,91 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="styles-t.css" />
-  </head>
-  <body>
-
-    <!-- single class or no class screen -->
-    <div id="non-combo-class" class="wfwidget_comp">
-      <div class="wfwidget_block">
-        <div class="font-size-small">Style Breakpoint:</div>
-        <div class="wfwidget_breakpoint-wrap">
-          <div class="wfwidget_breakpoint">
-            <div class="font-size-small breakpointDisplay"></div>
-            <div class="wfwidget_class-chip-icon">
-              <div class="icon-embed-xxsmall">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  preserveAspectRatio="xMidYMid meet"
-                  aria-hidden="true"
-                  role="img"
-                >
-                  <path
-                    d="M8.5 12H7.5C7.22386 12 7 12.2239 7 12.5V13.5C7 13.7761 7.22386 14 7.5 14H8.5C8.77614 14 9 13.7761 9 13.5V12.5C9 12.2239 8.77614 12 8.5 12Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    d="M11.5 12H10.5C10.2239 12 10 12.2239 10 12.5V13.5C10 13.7761 10.2239 14 10.5 14H11.5C11.7761 14 12 13.7761 12 13.5V12.5C12 12.2239 11.7761 12 11.5 12Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    d="M5.5 12H4.5C4.22386 12 4 12.2239 4 12.5V13.5C4 13.7761 4.22386 14 4.5 14H5.5C5.77614 14 6 13.7761 6 13.5V12.5C6 12.2239 5.77614 12 5.5 12Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M2 2C1.73478 2 1.48043 2.10536 1.29289 2.29289C1.10536 2.48043 1 2.73478 1 3V10C1 10.2652 1.10536 10.5196 1.29289 10.7071C1.48043 10.8946 1.73478 11 2 11H14C14.2652 11 14.5196 10.8946 14.7071 10.7071C14.8946 10.5196 15 10.2652 15 10V3C15 2.73478 14.8946 2.48043 14.7071 2.29289C14.5196 2.10536 14.2652 2 14 2H2ZM14 3H2V10H14V3Z"
-                    fill="currentColor"
-                  ></path>
-                  <path
-                    opacity="0.6"
-                    d="M3 4H13V9H3V4Z"
-                    fill="currentColor"
-                  ></path>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Styler</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono&display=swap" rel="stylesheet">
+<!-- CodeMirror CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/material-darker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.css">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Main Application Container -->
+  <div class="app-container">
+    <!-- Single Class Content -->
+    <div id="single-class" class="single-class">
+      <!-- Element 1: Main Screen -->
+      <div id="main-screen" class="main-screen screen active">
+        <div class="element_component">
+          <div class="setting_comp">
+            <!-- Success Notification -->
+            <div class="note_component" style="display: none;">
+              <div class="icon-embed-xxsmall white">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.3536 4.35355L6.85377 10.8541C6.76 10.9479 6.63281 11.0006 6.5002 11.0006C6.36758 11.0006 6.24039 10.9479 6.14662 10.8541L2.64648 7.35355L3.35363 6.64649L6.5002 9.79342L12.6465 3.64648L13.3536 4.35355Z" fill="currentColor"/>
                 </svg>
               </div>
+              <div class="note_right">
+                <div class="note_text-wrap">
+                  <div class="text-size-small-regular">Style Added</div>
+                </div>
+                <button class="icon-button">
+                  <div class="icon-embed-xxsmall">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.70714 8.00004L12.3536 4.35359L11.6465 3.64648L8.00004 7.29293L4.35359 3.64648L3.64648 4.35359L7.29293 8.00004L3.64648 11.6465L4.35359 12.3536L8.00004 8.70714L11.6465 12.3536L12.3536 11.6465L8.70714 8.00004Z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                </button>
+              </div>
             </div>
-            <div class="w-layout-vflex wfwidget_class-chip">
-              <div class="font-size-small classDisplay">heading-style-h1</div>
+
+            <!-- Selected Element Section -->
+            <div class="element_wrap">
+              <div class="el-header">
+                <p class="text-size-small-regular text-color-text2">Selected Class / Element</p>
+                <button id="reset-styles" class="reset-styles link-block">
+                  <p class="text-size-small-regular text-color-danger ">Clear Styles</p>
+                </button>
+              </div>
+              
+              
+             
+              <div class="el-class_wrap">
+                <div class="el-class_icon-wrap">
+                  <div class="icon-embed-xxsmall breakpoint-icon">
+                    <!-- XXL Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="xxl" style="display: none;">
+                      <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 2H15V10H12H11H9H8H6H5H2V2ZM5 11H2C1.44772 11 1 10.5523 1 10V2C1 1.44772 1.44772 1 2 1H15C15.5523 1 16 1.44772 16 2V10C16 10.5523 15.5523 11 15 11H12V13H14V14H11.5H8.5H5.5H3V13H5V11ZM6 11V13H8V11H6ZM9 11V13H11V11H9Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- XL Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="xl" style="display: none;">
+                      <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 2H14V10H11H10H7H6H3V2ZM6 11H3C2.44772 11 2 10.5523 2 10V2C2 1.44772 2.44772 1 3 1H14C14.5523 1 15 1.44772 15 2V10C15 10.5523 14.5523 11 14 11H11V13H13V14H10.5H6.5H4V13H6V11ZM7 11V13H10V11H7Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- Large Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="large" style="display: none;">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 2H13V10H9H8H4V2ZM8 11H4C3.44771 11 3 10.5523 3 10V2C3 1.44772 3.44772 1 4 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H9V13H11.5V14H8.5H5.5V13H8V11Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- Main Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="main" style="display: none;">
+                      <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 5.36602L10.1519 6.43301L9.65192 5.56699L11.5 4.5L9.65193 3.43301L10.1519 2.56699L12 3.63397V1.5H13V3.63397L14.8481 2.56699L15.3481 3.43301L13.5 4.5L15.3481 5.56699L14.8481 6.43301L13 5.36602V7.5H12V5.36602ZM3 4H8V5H3V12H13V9H14V12H16V13H0V12H2V5C2 4.44772 2.44772 4 3 4Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- Medium Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="medium" style="display: none;">
+                      <svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 3H12V13H4V3ZM3 3C3 2.44772 3.44772 2 4 2H12C12.5523 2 13 2.44772 13 3V13C13 13.5523 12.5523 14 12 14H4C3.44772 14 3 13.5523 3 13V3ZM9.5 11H6.5V12H9.5V11Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- Small Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="small" style="display: none;">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 9V7H11V9H12Z" fill="currentColor"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 12C2.89543 12 2 11.1046 2 10V6C2 4.89543 2.89543 4 4 4H12C13.1046 4 14 4.89543 14 6V10C14 11.1046 13.1046 12 12 12H4ZM3 10V6C3 5.44772 3.44772 5 4 5H12C12.5523 5 13 5.44772 13 6V10C13 10.5523 12.5523 11 12 11H4C3.44772 11 3 10.5523 3 10Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                    <!-- Tiny Breakpoint -->
+                    <div class="breakpoint-svg" data-breakpoint="tiny" style="display: none;">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 12H9V11H7V12Z" fill="currentColor"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 4C4 2.89543 4.89543 2 6 2H10C11.1046 2 12 2.89543 12 4V12C12 13.1046 11.1046 14 10 14H6C4.89543 14 4 13.1046 4 12V4ZM6 3H10C10.5523 3 11 3.44772 11 4V12C11 12.5523 10.5523 13 10 13H6C5.44772 13 5 12.5523 5 12V4C5 3.44772 5.44772 3 6 3Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="button btn-primary effect-style-box-shadows-action-colored">...</div>
+              </div>
+            </div>
+
+            <!-- Input Section -->
+            <div class="element_wrap">
+              <p class="text-size-small-regular text-color-text2">Enter Class Name</p>
+              <input type="text" id="input-class" class="input-field effect-style-input-inner-shadow" placeholder="Enter class name..." />
+            </div>
+
+            <div class="element_wrap">
+              <p class="text-size-small-regular text-color-text2">Paste the CSS below</p>
+              <div class="code-editor-wrapper">
+                <textarea id="figma-css" class="figma-css text-area text-style-code effect-style-input-inner-shadow" placeholder="Paste CSS declarations (e.g. color: red; margin: 0;) or complete CSS rules..."></textarea>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-wrap">
+              <button id="paste-and-apply" class="paste-and-apply button btn-primary effect-style-box-shadows-action-colored">
+                <span class="text-size-small-regular">Apply Styles</span>
+              </button>
+              <button id="open-configure" class="open-configure button btn-secondary" onclick="document.querySelector('.main-screen').classList.remove('active'); document.querySelector('.configure-screen').classList.add('active');">
+                <span class="text-size-small-regular">Configure Settings</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="wfwidget_block">
-        <div class="font-size-small">Paste the CSS below:</div>
-        <input id="input-class" type="text" class="textarea w-input" />
-        <div class="wfwidget_textarea-block">
-          <textarea
-            placeholder="Example Text"
-            id="figma-css"
-            rows="10"
-            class="textarea w-input"
-          ></textarea>
+      <!-- Element 2: Configure Screen -->
+      <div id="configure-screen" class="configure-screen screen">
+        <div class="element_component">
+          <div class="setting_comp">
+            <!-- Back Button -->
+            <a href="#" id="back-to-main" class="back-to-main link-block" onclick="document.querySelector('.configure-screen').classList.remove('active'); document.querySelector('.main-screen').classList.add('active'); event.preventDefault();">
+              <div class="icon-embed-xxsmall">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.70707 8.85941L9.35352 6.21297L8.64641 5.50586L5.29286 8.85941L8.64641 12.213L9.35352 11.5059L6.70707 8.85941Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <p class="text-size-small-regular">Back</p>
+            </a>
+
+            <!-- Configure Content -->
+            <div class="configure-section">
+              <h2 class="text-large-medium">Configure settings</h2>
+              <p class="text-size-small-regular text-color-text2">Select from below:</p>
+              
+              <div class="setting_checkbox-block">
+                <label class="checkbox">
+                  <input type="checkbox" id="include-dimensions" class="include-dimensions field-checkbox" checked>
+                  <span class="text-size-small-regular text-color-text2">Disable Width and Height</span>
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="convert-to-rem" class="convert-to-rem field-checkbox" checked>
+                  <span class="text-size-small-regular text-color-text2">Convert px to rem</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="w-layout-vflex wfwidget_btn-wrap">
-        <a href="#" id="apply-styles" class="button">Apply CSS</a>
-        <a href="#" id="reset-styles" class="button">Reset CSS</a>
+    <!-- Combo Class Content -->
+    <div id="combo-class" class="combo-class hidden">
+      <!-- Element 3: Combo Class Message -->
+      <div class="element_component">
+        <div class="setting_comp">
+          <div class="text-large-medium">Combo Class not Supported</div>
+        </div>
       </div>
     </div>
 
-    <!-- combo class screen -->
-    <div id="combo-class" style="display: none;" class="wfwidget_comp">
-      <h1>sorry for combo class</h1>
+    <!-- Error Message -->
+    <div class="error-message app-error">
+      <div class="error-message_content">
+        <div class="icon-embed-xxsmall error-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14ZM8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM7 4H9V10H7V4ZM7 11H9V13H7V11Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="text-size-small-regular text-color-error">Select a Valid Element</p>
+      </div>
     </div>
 
-    <script type="module" src="index.js"></script>
-    <script type="module" src="handlers.js"></script>
-    <script type="module" src="domManiputaltion.js"></script>
-  </body>
+    <!-- Info Block (Replaces both Error Message and Combo Class) -->
+    <div class="info_block">
+      <div class="info_content">
+        <div class="info_icon-wrap">
+          <div class="icon-embed-xxsmall w-embed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 16 16" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+              <path d="M8 5V9H9V5H8Z" fill="#BDBDBD"></path>
+              <path d="M8.5 12C9.05228 12 9.5 11.5523 9.5 11C9.5 10.4477 9.05228 10 8.5 10C7.94772 10 7.5 10.4477 7.5 11C7.5 11.5523 7.94772 12 8.5 12Z" fill="#BDBDBD"></path>
+              <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M7.63399 2C8.01889 1.33333 8.98114 1.33333 9.36603 2L15.4282 12.5C15.8131 13.1667 15.332 14 14.5622 14H2.43783C1.66803 14 1.18691 13.1667 1.57181 12.5L7.63399 2ZM8.50001 2.5L2.43783 13L14.5622 13L8.50001 2.5Z" fill="#F5F5F5"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="info_text-wrap">
+          <div class="text-size-small-medium">Select a Element with single class</div>
+          <div class="text-size-small-regular text-color-text2">Combo Class is not supported</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="index.js"></script>
+  <script type="module" src="handlers.js"></script>
+  <script type="module" src="domManiputaltion.js"></script>
+  <script type="module" src="breakpoint-handler.js"></script>
+  <script type="module" src="styleOperations.js"></script>
+  <script type="module" src="initStyleOperations.js"></script>
+  <script src="styleApplication.js"></script>
+  
+  <!-- CodeMirror Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/show-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/hint/css-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/lint/lint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/lint/css-lint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/csslint/1.0.5/csslint.min.js"></script>
+  
+  <!-- CodeMirror Initialization -->
+  <script src="cssEditor.js"></script>
+</body>
 </html>

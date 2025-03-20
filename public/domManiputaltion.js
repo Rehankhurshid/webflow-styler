@@ -1,135 +1,152 @@
-var __awaiter =
-  (this && this.__awaiter) ||
-  function (thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P
-        ? value
-        : new P(function (resolve) {
-            resolve(value);
-          });
+// Subscribe to changes in the selected element
+const inputClassField = document.querySelector(".input-field");
+// Get the wrapper div by getting the input field's parent element
+const inputClassWrapper = inputClassField?.parentElement;
+const elementWrap = document.querySelector(".el-class_wrap");
+const classButton = elementWrap?.querySelector(".button");
+const singleClassDiv = document.querySelector(".single-class");
+const infoBlock = document.querySelector(".info_block");
+
+// Add input event listener to update button text
+if (inputClassField) {
+  inputClassField.addEventListener("input", (event) => {
+    if (classButton) {
+      const inputValue = event.target.value.trim();
+      if (inputValue) {
+        classButton.textContent = inputValue;
+        classButton.style.display = "flex";
+      } else {
+        classButton.textContent = "Add new class";
+        classButton.style.display = "none";
+      }
     }
-    return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done
-          ? resolve(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-// get breakpoint and subscribe to breakpoint changes
-export const getBreakpoint = () =>
-  __awaiter(void 0, void 0, void 0, function* () {
-    try {
-      const breakpoint = yield webflow.getMediaQuery();
-      return breakpoint;
-    } catch (error) {
-      return "error";
-    }
-  });
-const breakpoint = document.querySelector(".breakpointDisplay");
-function updateBreakpoint() {
-  return __awaiter(this, void 0, void 0, function* () {
-    const breakpointId = yield getBreakpoint();
-    breakpoint.innerHTML = breakpointId || "";
-    // console.log((breakpoint as any).getProperty("background-color"));
-    // let styleProperties = myStyle.getProperties();
   });
 }
-updateBreakpoint();
-const mediaQueryCallback = () => {
-  updateBreakpoint();
-};
-const unsubscribeMediaQuery = webflow.subscribe(
-  "mediaquery",
-  mediaQueryCallback
-);
-// fetch selected display class ans display
-const selectedElementDisplay = document.querySelector(".classDisplay");
-// Subscribe to changes in the selected element
-const selectedElementCallback = (element) => {
-  // This is to display class in div
-  const inputElement = document.getElementById("input-class");
-  if (element) {
-    // check if there is one more class in element
-    (function () {
-      var _a;
-      return __awaiter(this, void 0, void 0, function* () {
-        const elementStyles = yield element === null || element === void 0
-          ? void 0
-          : element.getStyles();
-        const currentClassName =
-          (_a = elementStyles[0]) === null || _a === void 0
-            ? void 0
-            : _a.getName();
-        if (elementStyles.length === 1) {
-          inputElement.style.display = "none";
-          selectedElementDisplay.innerHTML = currentClassName;
-        } else if (elementStyles.length === 0) {
-          inputElement.style.display = "block";
-          selectedElementDisplay.innerHTML = "Add new class";
-        } else {
-          inputElement.style.display = "none";
-          selectedElementDisplay.innerHTML = "combo class issue";
-        }
-      });
-    })();
-  } else {
-    console.log("No element is currently selected.");
+
+const selectedElementCallback = async (element) => {
+  // Get references to DOM elements
+
+  // Hide info block by default
+  if (infoBlock) {
+    infoBlock.style.display = "none";
   }
-  const singleClassDiv = document.getElementById("non-combo-class");
-  const comboClassDiv = document.getElementById("combo-class");
-  // To show empty screen incase of combo class
-  if (element) {
-    // check if there is one more class in element
-    (function () {
-      var _a;
-      return __awaiter(this, void 0, void 0, function* () {
-        const elementStyles = yield element === null || element === void 0
-          ? void 0
-          : element.getStyles();
-        const currentClassName =
-          (_a = elementStyles[0]) === null || _a === void 0
-            ? void 0
-            : _a.getName();
-        if (elementStyles.length === 1) {
-          singleClassDiv.style.display = "block";
-          comboClassDiv.style.display = "none";
-          inputElement.style.display = "none";
-          selectedElementDisplay.innerHTML = currentClassName;
-        } else if (elementStyles.length === 0) {
-          singleClassDiv.style.display = "block";
-          comboClassDiv.style.display = "none";
-          selectedElementDisplay.innerHTML = "Add new class";
+
+  // If no element is selected
+  if (!element) {
+    console.log("No element selected, showing info");
+    if (singleClassDiv) {
+      singleClassDiv.style.display = "none";
+    }
+    if (classButton) {
+      classButton.textContent = "No element selected";
+      classButton.style.display = "flex";
+    }
+    if (inputClassWrapper) {
+      inputClassWrapper.style.display = "none";
+    }
+    if (infoBlock) {
+      // Update info block text for no element
+      const titleEl = infoBlock.querySelector(".text-size-small-medium");
+      const descEl = infoBlock.querySelector(".text-color-text2");
+      if (titleEl) titleEl.textContent = "Select a Valid Element";
+      if (descEl) descEl.textContent = "Please select an element to continue";
+      infoBlock.style.display = "block";
+    }
+    return;
+  }
+
+  try {
+    // Get element styles
+    const elementStyles = await element.getStyles();
+
+    if (!elementStyles) {
+      console.error("Failed to get element styles");
+      if (singleClassDiv) {
+        singleClassDiv.style.display = "none";
+      }
+      if (infoBlock) {
+        // Update info block text for no styles
+        const titleEl = infoBlock.querySelector(".text-size-small-medium");
+        const descEl = infoBlock.querySelector(".text-color-text2");
+        if (titleEl) titleEl.textContent = "Element has no styles";
+        if (descEl)
+          descEl.textContent = "The selected element doesn't have any styles";
+        infoBlock.style.display = "block";
+      }
+      return;
+    }
+
+    // Check if element has multiple classes
+    if (elementStyles.length > 1) {
+      if (singleClassDiv) {
+        singleClassDiv.style.display = "none";
+      }
+      if (infoBlock) {
+        // Update info block text for combo class
+        const titleEl = infoBlock.querySelector(".text-size-small-medium");
+        const descEl = infoBlock.querySelector(".text-color-text2");
+        if (titleEl)
+          titleEl.textContent = "Select an Element with single class";
+        if (descEl) descEl.textContent = "Combo Class is not supported";
+        infoBlock.style.display = "block";
+      }
+      return;
+    }
+
+    // Hide info block since we have a valid element with a single class
+    if (infoBlock) {
+      infoBlock.style.display = "none";
+    }
+
+    const currentClassName = elementStyles[0]?.getName();
+
+    if (elementStyles.length === 1) {
+      // Single class case
+      if (classButton) {
+        classButton.textContent = currentClassName;
+        classButton.style.display = "flex";
+      }
+      if (inputClassWrapper) {
+        inputClassWrapper.style.display = "none";
+      }
+      if (singleClassDiv) {
+        singleClassDiv.style.display = "block";
+      }
+    } else if (elementStyles.length === 0) {
+      // No classes case
+      if (classButton) {
+        // Hide button initially until user types in the input
+        classButton.style.display = "none";
+        classButton.textContent = "Add new class";
+      }
+      if (inputClassWrapper) {
+        inputClassWrapper.style.display = "flex";
+        // Clear the input field
+        if (inputClassField) {
+          inputClassField.value = "";
         }
-        // combo class
-        else {
-          // show combo class div
-          comboClassDiv.style.display = "block";
-          // hide single class div
-          singleClassDiv.style.display = "none";
-          selectedElementDisplay.innerHTML = "combo class issue";
-        }
-      });
-    })();
-  } else {
-    console.log("No element is currently selected.");
+      }
+      if (singleClassDiv) {
+        singleClassDiv.style.display = "block";
+      }
+    }
+  } catch (error) {
+    console.error("Error handling element selection:", error);
+    if (singleClassDiv) {
+      singleClassDiv.style.display = "none";
+    }
+    if (infoBlock) {
+      // Update info block text for error
+      const titleEl = infoBlock.querySelector(".text-size-small-medium");
+      const descEl = infoBlock.querySelector(".text-color-text2");
+      if (titleEl) titleEl.textContent = "Element not supported";
+      if (descEl)
+        descEl.textContent = "Please select an element with a single class";
+      infoBlock.style.display = "block";
+    }
   }
 };
+
 const unsubscribeSelectedElement = webflow.subscribe(
   "selectedelement",
   selectedElementCallback
